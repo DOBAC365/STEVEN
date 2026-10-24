@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#132a44"><title>S.HOME AI OFFICE — Demo 3D</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#25334c;background:#eef4f7}button,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5}
+#shell{max-width:1550px;min-height:100dvh;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 345px;grid-template-rows:67px minmax(480px,1fr);gap:12px;padding:12px}
+header{grid-column:1/-1;background:#fff;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 17px;box-shadow:0 8px 25px #39678516}.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:13px;background:#243c56;color:white;display:grid;place-items:center;font-size:23px;font-weight:800}.brand b{font-size:15px}.brand small{display:block;color:#95a2b5;font-size:9px;margin-top:4px;letter-spacing:1px}.tag{font-size:10px;border-radius:20px;padding:8px 10px;background:#fdf1db;color:#946a23;font-weight:800;white-space:nowrap}
+.scene-shell{position:relative;border-radius:23px;overflow:hidden;background:linear-gradient(160deg,#e2f5f5 2%,#f2effc 62%,#e7f4fc);box-shadow:0 12px 42px #6d95ba2a;min-height:470px}#stage{position:absolute;inset:0;touch-action:none}#stage canvas{display:block;width:100%;height:100%;touch-action:none}#labels{position:absolute;inset:0;pointer-events:none}.lab{position:absolute;transform:translate(-50%,-50%);padding:6px 9px;border-radius:12px;font-weight:800;font-size:10px;border:1px solid #fff9;white-space:nowrap;color:#36516e;background:#fffffff0;box-shadow:0 5px 13px #4b639524;pointer-events:auto;cursor:pointer}.lab.active{background:#2e547b;color:#fff}.hero{position:absolute;top:16px;left:17px;pointer-events:none}.hero h1{font-size:20px;margin:0}.hero p{margin:5px 0;color:#718fa7;font-size:10px;line-height:1.55;font-weight:600}.controls{position:absolute;top:14px;right:15px;display:flex;gap:6px}.sq{border:1px solid #ffffffb4;border-radius:11px;background:#fffffff0;color:#466684;width:35px;height:35px;font-weight:900;font-size:17px}.hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);border-radius:25px;padding:9px 12px;background:#fffd;color:#67859d;white-space:nowrap;text-align:center;font-size:10px;font-weight:700}
+#panel{border-radius:22px;background:#fff;box-shadow:0 12px 32px #67829c22;display:flex;flex-direction:column;overflow:hidden;min-height:0}.panel-head{padding:20px 19px 15px;border-bottom:1px solid #eaf0f4}.eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:800;color:#90a3b5}.panel-head h2{font-size:20px;line-height:1.2;margin:8px 0 4px}.panel-head p{margin:0;color:#91a0b0;font-size:11px}.tabs{display:flex;gap:5px;padding:12px 15px 7px;overflow:auto}.tab{border:1px solid #e5ebf1;border-radius:18px;padding:7px 12px;background:#fff;font-size:10px;font-weight:700;white-space:nowrap;color:#7c8da2}.tab.active{background:#3554ab;color:white;border-color:#3554ab}
+.scroll{overflow:auto;padding:10px 18px 18px;flex:1}.selected{display:flex;gap:11px;align-items:center;background:#f4f8fa;border-radius:14px;padding:11px}.face{display:grid;place-items:center;border-radius:13px;width:43px;height:43px;background:#d6efe7;font-size:24px}.selected b{font-size:13px}.selected small{display:block;margin-top:4px;color:#8498aa;font-size:10px}label{display:block;font-size:11px;font-weight:800;margin:14px 0 7px}textarea{width:100%;min-height:106px;border-radius:14px;outline:none;border:1px solid #e2eaf2;padding:12px;background:#f9fbfd;resize:vertical;font-size:12px;line-height:1.5}.btn{background:#3c5abd;border:0;border-radius:13px;color:white;padding:13px 12px;text-align:center;width:100%;margin-top:10px;font-size:12px;font-weight:800}.btn.secondary{background:#edf4f9;color:#42657e;border:1px solid #e2ebf3}.result{margin-top:15px;background:#f4f8fa;border:1px solid #e1eaf2;border-radius:13px;overflow:hidden}.result-title{padding:10px 12px;font-weight:800;font-size:11px;border-bottom:1px solid #e0e9f2}.result pre{margin:0;padding:12px;white-space:pre-wrap;font-family:inherit;font-size:11px;color:#60748a;line-height:1.7;max-height:225px;overflow:auto}.empty{padding:22px;color:#99a8b6;font-size:11px}.modules{display:grid;gap:8px;margin-top:12px}.module{background:#f3f7fa;padding:12px;border:1px solid #e7edf1;border-radius:12px;font-size:12px}.module b{display:block}.module small{color:#8194a6;display:block;margin-top:6px;font-size:10px}.stats{display:flex;gap:6px;margin-top:11px}.stat{flex:1;background:#edf5fb;padding:10px 7px;border-radius:11px;text-align:center}.stat b{display:block;font-size:18px}.stat small{font-size:9px;color:#7b90a3}.notice{margin-top:12px;padding:12px;border-radius:12px;background:#fff7e9;color:#986a28;font-size:10px;line-height:1.65}
+#list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.pick{border:1px solid #e3e9f0;border-radius:18px;padding:8px 10px;background:white;font-size:11px;color:#53697b}.pick.active{background:#e6eefb;border-color:#9eb6e6}
+@media(max-width:900px){#shell{display:flex;flex-direction:column;padding:7px;gap:8px}header{padding:10px 12px;border-radius:15px}.brand b{font-size:12px}.brand small{font-size:8px}.logo{width:35px;height:35px;font-size:20px}.scene-shell{min-height:49dvh;height:49dvh;border-radius:19px}.hero h1{font-size:16px}.hero{top:12px;left:11px}.hero p{font-size:9px}.controls{top:11px;right:10px}.hint{font-size:9px;white-space:normal;width:max-content;max-width:94%;padding:6px 8px;bottom:8px}.lab{font-size:9px;padding:4px 6px}.panel-head{padding:15px}.panel-head h2{font-size:17px}.scroll{padding:10px 15px 28px;overflow:visible}.tag{font-size:9px;padding:6px 7px}#panel{overflow:visible}.stats{margin-top:8px}}
+</style></head><body><div id="shell">
+<header><div class="brand"><div class="logo">S.</div><div><b>S.HOME / AI OFFICE 3D</b><small>MODULAR BUSINESS HEADQUARTERS</small></div></div><span class="tag">● DEMO — CHƯA KẾT NỐI AI</span></header>
+<main class="scene-shell"><div id="stage"></div><div id="labels"></div><div class="hero"><h1>Văn phòng AI 3D ✨</h1><p>13 phòng ban • Nhân vật chuyển động<br>Chạm vào từng phòng để giao việc</p></div><div class="controls"><button class="sq" id="reset" title="Góc mặc định">⌖</button><button class="sq" id="zin" title="Phóng to">+</button><button class="sq" id="zout" title="Thu nhỏ">−</button></div><div class="hint">👆 Vuốt để xoay · Chụm 2 ngón để zoom · Chạm để chọn</div></main>
+<aside id="panel"><div class="panel-head"><div class="eyebrow">TRUNG TÂM ĐIỀU HÀNH</div><h2>Giao việc cho bộ phận</h2><p>Chọn một nhân vật trong mô hình hoặc danh sách.</p></div><nav class="tabs"><button class="tab active" data-tab="task">💬 Giao việc</button><button class="tab" data-tab="team">🏢 13 phòng</button><button class="tab" data-tab="modules">🔌 Ứng dụng</button></nav>
+<div class="scroll"><section id="tab-task"><div class="selected"><div class="face" id="face">🔎</div><div><b id="who">Nghiên cứu</b><small id="what">Nghiên cứu thị trường</small></div></div><label for="command">Nhiệm vụ cần thực hiện</label><textarea id="command">Đề xuất nội dung Facebook 7 ngày về thiết kế tủ bếp cho S.HOME.</textarea><button class="btn" id="submit">✦ Thử giao việc (mô phỏng)</button><div class="result"><div class="result-title">📋 Kết quả công việc <span id="state" style="float:right;color:#7a9ab1">Chưa chạy</span></div><div id="output" class="empty">Bấm “Thử giao việc” để xem luồng xử lý mẫu. Bản này chưa dùng API AI thực.</div></div><div class="stats"><div class="stat"><b>13</b><small>Bộ phận</small></div><div class="stat"><b id="jobs">0</b><small>Việc thử</small></div><div class="stat"><b id="done">0</b><small>Hoàn tất</small></div></div><div class="notice">⚠️ Đây là bản demo giao diện. Nội dung trả về chỉ là ví dụ cố định, chưa gọi OpenAI, chưa kết nối Facebook, kế toán hay dữ liệu khách hàng.</div></section>
+<section id="tab-team" hidden><div class="eyebrow">CHỌN PHÒNG BAN</div><div id="list"></div><div class="notice">Mỗi phòng có thể được mở rộng bằng module mới về sau.</div></section>
+<section id="tab-modules" hidden><div class="eyebrow">KẾT NỐI THEO MODULE</div><div class="modules"><div class="module"><b>📘 Facebook AI / CRM</b><small>Đọc lead, bài đăng, bình luận — mẫu kết nối, chưa hoạt động</small></div><div class="module"><b>🧾 Kế toán 2026</b><small>Báo giá, công nợ, thu chi — mẫu kết nối, chưa hoạt động</small></div><div class="module"><b>🪚 Điều hành sản xuất</b><small>Bản vẽ, BOM, lịch xưởng, QC — sẵn vị trí mở rộng</small></div><div class="module"><b>🏠 Công trình</b><small>Chốt màu, duyệt thiết kế, thi công, nghiệm thu — sẵn vị trí mở rộng</small></div></div><div class="notice">Các ứng dụng thật sẽ giao tiếp qua API/bridge và cần xác thực, phân quyền, xác nhận trước khi đăng bài hay thay đổi dữ liệu tài chính.</div></section></div></aside>
+</div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script>
+<script type="module">
+import * as T from "three";
+const departments=[
+["Nghiên cứu","🔎","Insight & đối thủ","#9bdfe0"],["Chiến lược","🧠","Kế hoạch & kịch bản","#ffcea8"],["Viết bài","✍️","Content Facebook & TikTok","#d0bbf9"],["Thiết kế","🎨","Ảnh, carousel, visual","#f7b5c7"],["Dựng video","🎬","Kịch bản & hậu kỳ","#b2bbff"],["Đăng bài","📅","Lịch xuất bản","#f8e2a7"],["Chăm sóc khách","💬","Bình luận & inbox","#ade5cc"],["Quảng cáo","📣","Kế hoạch quảng cáo","#b8d8fc"],["Phân tích","📊","KPI & báo cáo","#c9e3ab"],["Kế toán","🧾","Báo giá & công nợ","#b1deb3"],["Kinh doanh","🤝","Khách hàng tiềm năng","#facdb0"],["Sản xuất","🪚","Tiến độ xưởng","#aad8e7"],["Công trình","🏠","Thi công & bàn giao","#ddd0f3"]];
+let active=0,total=0,finished=0,working=false;
+const $=s=>document.querySelector(s), root=$("#stage"),labelLayer=$("#labels");
+const scene=new T.Scene(),camera=new T.PerspectiveCamera(42,1,.1,140);scene.fog=new T.Fog(0xedf4f5,37,70);
+const renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:"default"});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;root.append(renderer.domElement);
+scene.add(new T.HemisphereLight(0xffffff,0xcdd7d4,2.6));const light=new T.DirectionalLight(0xfff9ef,3);light.position.set(-10,18,9);scene.add(light);
+const gBox=new T.BoxGeometry(1,1,1),gBall=new T.SphereGeometry(1,12,10),gCyl=new T.CylinderGeometry(1,1,1,16);
+const material=c=>new T.MeshStandardMaterial({color:c,roughness:.75});
+const M={white:material("#fffaf1"),dark:material("#44546e"),wood:material("#bd9e84"),skin:material("#f7d5bf"),hair:material("#534d5f"),leaf:material("#a7d9ae")};
+function add(parent,geo,mat,x,y,z,sx,sy,sz){const m=new T.Mesh(geo,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);parent.add(m);return m}
+const land=new T.Group();scene.add(land);
+add(land,gBox,material("#f8eee2"),0,-.58,0,25,.85,20);
+add(land,gBox,material("#c8e8d7"),0,-.1,0,24.8,.2,19.8);
+for(let i=0;i<6;i++)add(land,gBox,material("#fff8e8"),0,.015,-8+i*3.2,22,.05,.28);
+for(let i=0;i<8;i++)add(land,gBox,material("#fff8e8"),-10.7+i*3.05,.02,0,.26,.05,17.2);
+const avatars=[],groups=[],labels=[];
+departments.forEach((d,i)=>{
+ const col=i%4,row=Math.floor(i/4),x=(col-1.5)*5.65,z=(row-1.5)*4.52;
+ const g=new T.Group();g.position.set(x,0,z);g.userData.i=i;land.add(g);groups.push(g);
+ const tint=material(d[3]);add(g,gCyl,M.white,0,.09,0,1.65,.16,1.55);
+ add(g,gCyl,tint,0,.2,0,1.52,.08,1.4);
+ add(g,gBox,tint,0,.75,-.47,2.2,.95,1.5);
+ add(g,gBox,M.white,0,1.29,-.47,2.45,.18,1.8);
+ add(g,gBox,M.white,0,.5,.64,1.55,.14,.56);
+ add(g,gBox,M.wood,-.5,.28,.7,.13,.44,.11);
+ add(g,gBox,M.wood,.5,.28,.7,.13,.44,.11);
+ add(g,gBox,M.dark,.2,.83,.60,.57,.35,.08);
+ add(g,gBox,material("#bce9e2"),.2,.84,.65,.44,.23,.02);
+ const a=new T.Group();a.position.set(-.65,.31,1.04);g.add(a);avatars.push(a);
+ add(a,gBall,material(["#759eb9","#d9a9ad","#a2a9d6"][i%3]),0,.22,0,.23,.33,.23);
+ add(a,gBall,M.skin,0,.64,0,.29,.29,.28);
+ add(a,gBall,M.hair,0,.81,-.05,.3,.19,.29);
+ add(a,gBall,M.dark,-.095,.64,.25,.025,.025,.02);add(a,gBall,M.dark,.095,.64,.25,.025,.025,.02);
+ add(g,gCyl,material("#deb78b"),1.12,.31,.71,.12,.27,.12);
+ add(g,gBall,material("#75bd96"),1.12,.56,.71,.2,.23,.19);
+ const ring=new T.Mesh(new T.RingGeometry(1.46,1.56,32),new T.MeshBasicMaterial({color:"#f9c75a",transparent:true,opacity:0,side:T.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.y=.28;g.add(ring);g.userData.ring=ring;
+ const lbl=document.createElement("button");lbl.className="lab";lbl.textContent=d[1]+" "+d[0];lbl.onclick=()=>choose(i);labelLayer.append(lbl);labels.push(lbl);
+ g.traverse(o=>{if(o.isMesh)o.userData.idx=i});
+});
+let seed=1234;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+for(let i=0;i<48;i++){const x=(rand()-.5)*23,z=(rand()-.5)*18;if(Math.abs(x)<11&&Math.abs(z)<8&&Math.abs((x+8.475)%5.65)<1.1)continue;const t=new T.Group();t.position.set(x,0,z);add(t,gCyl,M.wood,0,.2,0,.055,.35,.055);add(t,gBall,material(["#a8d8b0","#d6cbed","#e8c8d4"][i%3]),0,.57,0,.23,.3,.24);land.add(t)}
+const panels=$("#list");
+departments.forEach((d,i)=>{const b=document.createElement("button");b.className="pick";b.textContent=d[1]+" "+d[0];b.onclick=()=>{choose(i);tab("task")};panels.append(b)});
+function choose(i){active=i;$("#who").textContent=departments[i][0];$("#what").textContent=departments[i][2];$("#face").textContent=departments[i][1];$("#face").style.background=departments[i][3];labels.forEach((l,j)=>l.classList.toggle("active",i===j));[...panels.children].forEach((x,j)=>x.classList.toggle("active",i===j));groups.forEach((g,j)=>g.userData.ring.material.opacity=j===i?.87:0)}
+function tab(id){for(const b of document.querySelectorAll(".tab"))b.classList.toggle("active",b.dataset.tab===id);for(const id2 of ["task","team","modules"])$("#tab-"+id2).hidden=id2!==id}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>tab(b.dataset.tab)));
+const samples={
+"Nghiên cứu":["Xác định 3 nhóm khách: nhà mới, cải tạo bếp, phòng cưới.","Phỏng vấn nhu cầu trước khi đề xuất nội dung.","Chuẩn bị tiêu chí đánh giá chất lượng lead."],
+"Viết bài":["Hook mẫu: Một căn bếp đẹp bắt đầu từ cách bố trí.","Giải thích công năng và độ bền, tránh quảng cáo quá đà.","CTA mẫu: Nhắn S.HOME để được tư vấn."],
+"Kế toán":["Kiểm tra hợp đồng, báo giá, phiếu thu và công nợ.","Tách chi phí vật liệu, nhân công, vận chuyển.","Chờ kết nối KẾ TOÁN 2026 để lấy số liệu thật."],
+"Sản xuất":["Xác nhận bản vẽ khách đã ký duyệt.","Kiểm kê vật tư, BOM và thứ tự chạy CNC.","Tạo checklist dán cạnh, QC và bàn giao."]
+};
+$("#submit").onclick=()=>{
+ if(working)return;const command=$("#command").value.trim();if(command.length<5){alert("Nhập một yêu cầu rõ ràng để thử.");return}
+ working=true;total++;$("#jobs").textContent=total;$("#state").textContent="● Đang mô phỏng";$("#output").className="empty";$("#output").textContent="Nhân vật đang xử lý minh họa...";
+ const name=departments[active][0],steps=samples[name]||["Ghi nhận mục tiêu và phạm vi công việc.","Chuẩn bị kế hoạch và đầu ra cho người quản lý.","Chờ kết nối hệ thống thật để thao tác dữ liệu."];
+ setTimeout(()=>{finished++;$("#done").textContent=finished;$("#state").textContent="✓ Bản mẫu";$("#output").className="";$("#output").innerHTML="";const pre=document.createElement("pre");pre.textContent="🧪 ĐÂY LÀ NỘI DUNG MẪU, CHƯA GỌI AI THẬT\n\nBộ phận: "+name+"\nYêu cầu: "+command+"\n\n"+steps.map((x,i)=>(i+1)+". "+x).join("\n")+"\n\nBản chính thức sẽ chạy AI bằng API và chỉ dùng dữ liệu được cấp quyền.";$("#output").append(pre);working=false},1000);
+};
+let theta=.58,phi=.89,radius=35,lastPointer=null,pointers=new Map(),pinch=null;
+function updateCamera(){phi=Math.max(.25,Math.min(1.48,phi));radius=Math.max(14,Math.min(54,radius));camera.position.set(radius*Math.sin(phi)*Math.sin(theta),radius*Math.cos(phi),radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(0,.4,0)}
+updateCamera();
+root.addEventListener("pointerdown",e=>{root.setPointerCapture(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);lastPointer=[e.clientX,e.clientY]});
+root.addEventListener("pointermove",e=>{if(!pointers.has(e.pointerId))return;const prev=pointers.get(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const p=[...pointers.values()];const dist=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);if(pinch!==null)radius*=pinch/dist;pinch=dist}else{pinch=null;const dx=e.clientX-prev[0],dy=e.clientY-prev[1];theta-=dx*.008;phi-=dy*.008}updateCamera()});
+const ray=new T.Raycaster(),point=new T.Vector2();
+root.addEventListener("pointerup",e=>{const p=pointers.get(e.pointerId);pointers.delete(e.pointerId);if(pointers.size<2)pinch=null;if(!lastPointer||!p)return;if(Math.hypot(e.clientX-lastPointer[0],e.clientY-lastPointer[1])>9)return;const b=root.getBoundingClientRect();point.set((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1);ray.setFromCamera(point,camera);const match=ray.intersectObjects(land.children,true).find(hit=>hit.object.userData.idx!==undefined);if(match)choose(match.object.userData.idx)});
+root.addEventListener("wheel",e=>{e.preventDefault();radius*=e.deltaY>0?1.09:.91;updateCamera()},{passive:false});
+$("#reset").onclick=()=>{theta=.58;phi=.89;radius=35;updateCamera()};$("#zin").onclick=()=>{radius*=.85;updateCamera()};$("#zout").onclick=()=>{radius*=1.15;updateCamera()};
+const vv=new T.Vector3();
+function render(t){requestAnimationFrame(render);const w=root.clientWidth,h=root.clientHeight;if(renderer.domElement.width!==Math.round(w*renderer.getPixelRatio())||renderer.domElement.height!==Math.round(h*renderer.getPixelRatio())){renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+avatars.forEach((a,i)=>{a.position.y=.31+Math.sin(t*.0017+i)*.06;a.rotation.y=Math.sin(t*.0009+i)*.12});
+groups.forEach((g,i)=>{const p=vv.set(g.position.x,1.95,g.position.z).project(camera);const el=labels[i];el.style.left=(p.x*.5+.5)*w+"px";el.style.top=(-p.y*.5+.5)*h+"px";el.style.display=p.z>1?"none":""});
+renderer.render(scene,camera)}
+choose(0);requestAnimationFrame(render);
+</script></body></html>
